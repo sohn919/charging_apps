@@ -1,4 +1,4 @@
-package com.github.hu1won.fishbowl;
+package com.github.sohn919.charging;
 
 import android.content.Context;
 
