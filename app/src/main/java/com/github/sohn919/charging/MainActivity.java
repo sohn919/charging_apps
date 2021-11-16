@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,8 +24,10 @@ import kr.co.bootpay.model.BootUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+    Button button, button1, button2, button3, button4, button5;
+    TextView pointtext;
     private int stuck = 10;
+    private int point = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,7 +39,56 @@ public class MainActivity extends AppCompatActivity {
         // 앱에서 확인하지 말고 꼭 웹 사이트에서 확인하자. 앱의 application id 갖다 쓰면 안됨!!!
         BootpayAnalytics.init(this, "61910e247b5ba4b3a352b0d0");
 
+        //결제
         button = findViewById(R.id.test);
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        button5 = findViewById(R.id.button4);
+        pointtext = findViewById(R.id.pointtext);
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = 1000;
+                pointtext.setText(Integer.toString(point));
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = 5000;
+                pointtext.setText(Integer.toString(point));
+            }
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = 10000;
+                pointtext.setText(Integer.toString(point));
+            }
+        });
+
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = 50000;
+                pointtext.setText(Integer.toString(point));
+            }
+        });
+
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                point = 100000;
+                pointtext.setText(Integer.toString(point));
+            }
+        });
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -53,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         .setBootExtra(bootExtra)
                         .setUX(UX.PG_DIALOG)
 //                .setUserPhone("010-1234-5678") // 구매자 전화번호
-                        .setName("맥북프로's 임다") // 결제할 상품명
+                        .setName("포인트 결제") // 결제할 상품명
                         .setOrderId("1234") // 결제 고유번호 (expire_month)
-                        .setPrice(1000) // 결제할 금액
+                        .setPrice(point) // 결제할 금액
                         .addItem("마우's 스", 1, "ITEM_CODE_MOUSE", 100) // 주문정보에 담길 상품정보, 통계를 위해 사용
                         .addItem("키보드", 1, "ITEM_CODE_KEYBOARD", 200, "패션", "여성상의", "블라우스") // 주문정보에 담길 상품정보, 통계를 위해 사용
                         .onConfirm(new ConfirmListener() { // 결제가 진행되기 바로 직전 호출되는 함수로, 주로 재고처리 등의 로직이 수행

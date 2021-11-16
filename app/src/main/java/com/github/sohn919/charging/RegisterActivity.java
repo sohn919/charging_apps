@@ -117,9 +117,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
-
-    public boolean onSupportNavigateUp(){
-        onBackPressed();; // 뒤로가기 버튼이 눌렸을시
-        return super.onSupportNavigateUp(); // 뒤로가기 버튼
-    }
 }
