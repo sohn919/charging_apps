@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="포인트"
+                android:text="충전"
                 android:textColor="#3E3E3E" />
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="120dp"
-                android:text="포인트를 충전합니다."
+                android:text="충전량을 설정합니다."
                 android:textColor="#AAA" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -52,14 +52,14 @@
 
     <com.github.florent37.expansionpanel.ExpansionLayout
         android:id="@+id/expansionLayout"
-        app:expansion_expanded="false"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:expansion_expanded="false">
 
         <LinearLayout
             android:id="@+id/container"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -83,7 +83,7 @@
 
 
                         <Button
-                            android:id="@+id/button1"
+                            android:id="@+id/button6"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
@@ -91,7 +91,7 @@
 
 
                         <Button
-                            android:id="@+id/button2"
+                            android:id="@+id/button7"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
@@ -99,7 +99,7 @@
 
 
                         <Button
-                            android:id="@+id/button3"
+                            android:id="@+id/button8"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
@@ -107,14 +107,14 @@
 
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/button9"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
                             android:text="5만" />
 
                         <Button
-                            android:id="@+id/button5"
+                            android:id="@+id/button10"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
@@ -139,19 +139,35 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/pointtext2"
-                            android:layout_width="288dp"
+                            android:id="@+id/c_pointtext2"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:background="#FFFFFFFF"
                             android:gravity="center"
                             android:textSize="20sp" />
 
                         <TextView
-                            android:layout_width="64dp"
+                            android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:background="#FFFFFFFF"
                             android:gravity="center"
                             android:text="P"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/c_amounttext"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:gravity="center"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="#FFFFFFFF"
+                            android:gravity="center"
+                            android:text="kWh"
                             android:textSize="20sp" />
 
                     </TableRow>
@@ -167,22 +183,21 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent">
 
-                <TableRow
-                    android:layout_width="353dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
-
-                    <Button
-                        android:id="@+id/test"
-                        android:layout_width="351dp"
+                    <TableRow
+                        android:layout_width="353dp"
                         android:layout_height="wrap_content"
-                        android:text="결제"
-                        android:textSize="30sp" />
+                        android:layout_marginBottom="10dp">
 
-                </TableRow>
+                        <Button
+                            android:id="@+id/test"
+                            android:layout_width="351dp"
+                            android:layout_height="wrap_content"
+                            android:text="충전"
+                            android:textSize="24sp" />
+
+                    </TableRow>
 
                 </TableLayout>
-
 
 
             </LinearLayout>
@@ -190,4 +205,5 @@
         </LinearLayout>
 
     </com.github.florent37.expansionpanel.ExpansionLayout>
+
 </LinearLayout>
