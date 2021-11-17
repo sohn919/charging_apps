@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
-        button5 = findViewById(R.id.button4);
+        button5 = findViewById(R.id.button5);
         pointtext = findViewById(R.id.pointtext);
 
         button1.setOnClickListener(new View.OnClickListener() {

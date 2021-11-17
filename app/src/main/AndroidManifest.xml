@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />  <!--인터넷 권한 선언-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!--위치 권한 선언-->
+
 
     <application
         android:usesCleartextTraffic="true"
@@ -16,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"> <!--액션바를 비활성-->
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAwGiLnNV9qTlLjRILIoX9TvnWaNMlExng" />
+
+
         <activity android:name=".Splash">
             <intent-filter> <!--처음 화면-->
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MapsActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".MainActivity"/>
