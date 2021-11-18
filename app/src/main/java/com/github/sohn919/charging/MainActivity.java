@@ -1,18 +1,27 @@
 package com.github.sohn919.charging;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,14 +42,28 @@ import kr.co.bootpay.listener.ReadyListener;
 import kr.co.bootpay.model.BootExtra;
 import kr.co.bootpay.model.BootUser;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = mDatabase.getReference();
     private FirebaseAuth firebaseAuth;
 
+    private ListView listView1;
+    private ListView listView2;
+    private ArrayAdapter<Object> m1Adapter;
+    private ArrayAdapter<Object> m2Adapter;
+    List<Object> m1Array = new ArrayList<>();
+    List<Object> m2Array = new ArrayList<>();
+
+
     Button button, button1, button2, button3, button4, button5;
-    Button button6, button7, button8, button9, button10; // 충전탭 버튼
+    Button i_button, c_button, button6, button7, button8, button9, button10; // 충전탭 버튼
     TextView pointtext;
     TextView chargetext;
     TextView c_pointtext;
@@ -53,11 +76,20 @@ public class MainActivity extends AppCompatActivity {
     private int u_point = 0; // 현재 사용자 보유 포인트
     private double dc_point = 0;
     private double c_amount = 0; // 충전탭 전력량
-    String uid = "";
+    String CarNumber = "";
+
+
+    //현재 시간 불러오기
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String getTime = dateFormat.format(date);
+        return getTime;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -66,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         // 앱에서 확인하지 말고 꼭 웹 사이트에서 확인하자. 앱의 application id 갖다 쓰면 안됨!!!
         BootpayAnalytics.init(this, "61910e247b5ba4b3a352b0d0");
 
-        //포인트 충전 결제
+        //포인트 충전 탭
         button = findViewById(R.id.test);
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
@@ -75,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
         button5 = findViewById(R.id.button5);
         pointtext = findViewById(R.id.pointtext2);
 
-        // 충전 탭
-        button6 = findViewById(R.id.button6);
+        //충전 탭
+        i_button = findViewById(R.id.i_button);
+        c_button = findViewById(R.id.c_button);
+        button6 = findViewById(R.id.sButton);
         button7 = findViewById(R.id.button7);
         button8 = findViewById(R.id.button8);
         button9 = findViewById(R.id.button9);
@@ -86,25 +120,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         //로그인 표시
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
         textViewUPoint = (TextView) findViewById(R.id.textViewUPoint);
         chargetext = (TextView) findViewById(R.id.chargetext);
         firebaseAuth = FirebaseAuth.getInstance();
 
+
         //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
-        if(firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
         //유저가 있다면, null이 아니면 계속 진행
         FirebaseUser user = firebaseAuth.getCurrentUser();
         //textViewUserEmail의 내용을 변경해 준다.
-        textViewUserEmail.setText("반갑습니다.\n"+ user.getEmail()+"으로 로그인 하였습니다.");
+        textViewUserEmail.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
+
 
         //보유포인트 표시
-        textViewUPoint.setText("보유포인트 "+ u_point +" P");
+        myRef.child("Users").child(user.getUid()).child("point").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                u_point = snapshot.getValue(Integer.class);
+                textViewUPoint.setText("보유포인트 " + u_point + " P");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        textViewUPoint.setText("보유포인트 " + u_point + " P");
 
 
         //충전량 표시
@@ -114,12 +160,22 @@ public class MainActivity extends AppCompatActivity {
                 Object value = snapshot.getValue(Object.class);
                 chargetext.setText(value.toString());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+
+        //차량번호 저장
+        myRef.child("Users").child(user.getUid()).child("number").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CarNumber = snapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
         /*
         myRef.child("Users").child(user.getUid()).child("electric").addValueEventListener(new ValueEventListener() {
             @Override
@@ -179,10 +235,9 @@ public class MainActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 BootUser bootUser = new BootUser().setPhone("010-8371-1690"); // !! 자신의 핸드폰 번호로 바꾸기
-                BootExtra bootExtra = new BootExtra().setQuotas(new int[] {0, 2, 3});
+                BootExtra bootExtra = new BootExtra().setQuotas(new int[]{0, 2, 3});
 
                 Bootpay.init(getFragmentManager())
                         .setApplicationId("61910e247b5ba4b3a352b0d0") // 해당 프로젝트(안드로이드)의 application id 값(위의 값 복붙)
@@ -210,6 +265,20 @@ public class MainActivity extends AppCompatActivity {
                         .onDone(new DoneListener() { // 결제완료시 호출, 아이템 지급 등 데이터 동기화 로직을 수행합니다
                             @Override
                             public void onDone(@Nullable String message) {
+                                myRef.child("Users").child(user.getUid()).child("point").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int value = (int) snapshot.getValue(Integer.class);
+                                        value += point;
+                                        myRef.child("Users").child(user.getUid()).child("point").setValue(value);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+
+
                                 Log.d("done", message);
                             }
                         })
@@ -244,8 +313,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 c_point += 1000;
                 c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double)c_point;
-                c_amount = dc_point / 100000 * 575 ;
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -255,8 +324,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 c_point += 5000;
                 c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double)c_point;
-                c_amount = dc_point / 100000 * 575 ;
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -266,8 +335,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 c_point += 10000;
                 c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double)c_point;
-                c_amount = dc_point / 100000 * 575 ;
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -277,8 +346,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 c_point += 50000;
                 c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double)c_point;
-                c_amount = dc_point / 100000 * 575 ;
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -288,11 +357,71 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 c_point += 100000;
                 c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double)c_point;
-                c_amount = dc_point / 100000 * 575 ;
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
 
+        i_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                c_point = 0;
+                c_pointtext.setText(Integer.toString(c_point));
+                dc_point = (double) c_point;
+                c_amount = dc_point / 100000 * 575;
+                c_amounttext.setText(Double.toString(c_amount));
+            }
+        });
+
+        c_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myRef.child("Users").child(user.getUid()).child("point").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int value = (int) snapshot.getValue(Integer.class);
+                        value -= c_point;
+                        myRef.child("Users").child(user.getUid()).child("point").setValue(value);
+
+                        //String message = "";
+                        //Log.d(c_amount+" 충전중입니다.", message);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+
+                //사용내역 데이터베이스 입력
+                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
+            }
+        });
+
+
+
+        /*
+        //사용내역 탭
+        myRef.child("UHistory").child(CarNumber).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Object value = snapshot.getValue(Object.class);
+                t_text.setText(value.toString());
+
+                for(DataSnapshot snapshot2 : snapshot.getChildren()){ // 하위노드가 없을때까지 반복
+                   Object c_time = snapshot2.getKey().toString();
+                   Object c_charge = snapshot2.getValue().toString();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+         */
+
+
+
     }
+
 }

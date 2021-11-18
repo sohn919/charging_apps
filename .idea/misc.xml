@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.165" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/charge_panel.xml" value="0.165625" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_maps.xml" value="0.23324275362318841" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.22554347826086957" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/charge_panel.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/history_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.13854166666666667" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/point_panel.xml" value="0.165625" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_login.xml" value="0.2390625" />

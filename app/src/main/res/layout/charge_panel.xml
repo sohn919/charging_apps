@@ -83,7 +83,7 @@
 
 
                         <Button
-                            android:id="@+id/button6"
+                            android:id="@+id/sButton"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
@@ -189,11 +189,18 @@
                         android:layout_marginBottom="10dp">
 
                         <Button
-                            android:id="@+id/test"
-                            android:layout_width="351dp"
+                            android:id="@+id/i_button"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                            android:text="포인트 초기화"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/c_button"
+                            android:layout_width="170dp"
                             android:layout_height="wrap_content"
                             android:text="충전"
-                            android:textSize="24sp" />
+                            android:textSize="20sp" />
 
                     </TableRow>
 
