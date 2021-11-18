@@ -1,22 +1,43 @@
 package com.github.sohn919.charging;
 
+import android.Manifest;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +69,13 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    //구글지도
+    private GoogleMap mMap;
+    private double longitude;
+    private double latitude;
+    private LoadingDialog loadingDialog;
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = mDatabase.getReference();
@@ -63,11 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button button, button1, button2, button3, button4, button5;
-    Button i_button, c_button, button6, button7, button8, button9, button10; // 충전탭 버튼
     TextView pointtext;
-    TextView chargetext;
-    TextView c_pointtext;
-    TextView c_amounttext;
     private TextView textViewUserEmail;
     private TextView textViewUPoint;
     private int stuck = 10;
@@ -77,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private double dc_point = 0;
     private double c_amount = 0; // 충전탭 전력량
     String CarNumber = "";
+
 
 
     //현재 시간 불러오기
@@ -94,9 +118,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
         // 초기설정 - 해당 프로젝트(안드로이드)의 application id 값을 설정합니다. 결제와 통계를 위해 꼭 필요합니다.
         // 앱에서 확인하지 말고 꼭 웹 사이트에서 확인하자. 앱의 application id 갖다 쓰면 안됨!!!
         BootpayAnalytics.init(this, "61910e247b5ba4b3a352b0d0");
+
+        //구글지도
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        //위치
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]
+                    {android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+
+        }
 
         //포인트 충전 탭
         button = findViewById(R.id.test);
@@ -107,23 +152,12 @@ public class MainActivity extends AppCompatActivity {
         button5 = findViewById(R.id.button5);
         pointtext = findViewById(R.id.pointtext2);
 
-        //충전 탭
-        i_button = findViewById(R.id.i_button);
-        c_button = findViewById(R.id.c_button);
-        button6 = findViewById(R.id.sButton);
-        button7 = findViewById(R.id.button7);
-        button8 = findViewById(R.id.button8);
-        button9 = findViewById(R.id.button9);
-        button10 = findViewById(R.id.button10);
-        c_pointtext = findViewById(R.id.c_pointtext2);
-        c_amounttext = findViewById(R.id.c_amounttext);
 
 
-
-        //로그인 표시
-        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
-        textViewUPoint = (TextView) findViewById(R.id.textViewUPoint);
-        chargetext = (TextView) findViewById(R.id.chargetext);
+//        //로그인 표시
+//        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
+//        textViewUPoint = (TextView) findViewById(R.id.textViewUPoint);
+//        chargetext = (TextView) findViewById(R.id.chargetext);
         firebaseAuth = FirebaseAuth.getInstance();
 
 
@@ -135,35 +169,35 @@ public class MainActivity extends AppCompatActivity {
         //유저가 있다면, null이 아니면 계속 진행
         FirebaseUser user = firebaseAuth.getCurrentUser();
         //textViewUserEmail의 내용을 변경해 준다.
-        textViewUserEmail.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
+//        textViewUserEmail.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
 
 
-        //보유포인트 표시
-        myRef.child("Users").child(user.getUid()).child("point").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                u_point = snapshot.getValue(Integer.class);
-                textViewUPoint.setText("보유포인트 " + u_point + " P");
-            }
+//        //보유포인트 표시
+//        myRef.child("Users").child(user.getUid()).child("point").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                u_point = snapshot.getValue(Integer.class);
+//                textViewUPoint.setText("보유포인트 " + u_point + " P");
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+//        textViewUPoint.setText("보유포인트 " + u_point + " P");
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        textViewUPoint.setText("보유포인트 " + u_point + " P");
 
-
-        //충전량 표시
-        myRef.child("Users").child(user.getUid()).child("electric").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Object value = snapshot.getValue(Object.class);
-                chargetext.setText(value.toString());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+//        //충전량 표시
+//        myRef.child("Users").child(user.getUid()).child("electric").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Object value = snapshot.getValue(Object.class);
+//                chargetext.setText(value.toString());
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
 
         //차량번호 저장
         myRef.child("Users").child(user.getUid()).child("number").addValueEventListener(new ValueEventListener() {
@@ -306,98 +340,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //충전 탭 버튼
-
-        button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c_point += 1000;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        button7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c_point += 5000;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        button8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c_point += 10000;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        button9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c_point += 50000;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        button10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c_point += 100000;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        i_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                c_point = 0;
-                c_pointtext.setText(Integer.toString(c_point));
-                dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
-                c_amounttext.setText(Double.toString(c_amount));
-            }
-        });
-
-        c_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myRef.child("Users").child(user.getUid()).child("point").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int value = (int) snapshot.getValue(Integer.class);
-                        value -= c_point;
-                        myRef.child("Users").child(user.getUid()).child("point").setValue(value);
-
-                        //String message = "";
-                        //Log.d(c_amount+" 충전중입니다.", message);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-
-                //사용내역 데이터베이스 입력
-                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
-            }
-        });
-
 
 
         /*
@@ -423,5 +365,70 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+
+        mMap = googleMap;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
+        LatLng SEOUL = new LatLng(37.53, 126.97);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(SEOUL);
+        markerOptions.title("현재 위치");
+        markerOptions.snippet("조선대");
+        mMap.addMarker(markerOptions);
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.marker_img);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 150, 150, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+        mMap.addMarker(markerOptions);
+
+        mMap.setOnMarkerClickListener(this);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 18));
+
+
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        Toast.makeText(this, marker.getTitle() + "\n" + marker.getPosition(), Toast.LENGTH_SHORT).show();
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+        int width = dm.widthPixels; //디바이스 화면 너비
+        int height = dm.heightPixels; //디바이스 화면 높이
+
+        //로딩이미지 gif 형식
+        loadingDialog = new LoadingDialog(this);
+        WindowManager.LayoutParams wm = loadingDialog.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm.copyFrom(loadingDialog.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm.width = (int)(width *0.5);  //화면 너비의 절반
+        wm.height = (int)(height *0.5);
+        loadingDialog.show();
+
+        return true;
+    }
+
+
+    final LocationListener gpsLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        } public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        } public void onProviderEnabled(String provider) {
+
+        } public void onProviderDisabled(String provider) {
+
+        }
+    };
+
 
 }

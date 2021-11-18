@@ -5,8 +5,13 @@
       <map>
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_maps.xml" value="0.23324275362318841" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_register.xml" value="0.26979166666666665" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_toolbar.xml" value="0.2703125" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.22554347826086957" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/charge_panel.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/charging_loading.xml" value="0.26979166666666665" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_charging.xml" value="0.26979166666666665" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_loading.xml" value="0.2" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/history_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.13854166666666667" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/point_panel.xml" value="0.165625" />

@@ -83,7 +83,7 @@
 
 
                         <Button
-                            android:id="@+id/sButton"
+                            android:id="@+id/Button6"
                             android:layout_width="70dp"
                             android:layout_height="30dp"
                             android:background="@drawable/stroke"
