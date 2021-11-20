@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -39,11 +41,20 @@ public class ChargingDialog extends Dialog {
     private int c_point = 0; // 충전탭 포인트
     private double dc_point = 0;
     private double c_amount = 0; // 충전탭 전력량
+    String CarNumber = "";
 
 
     ChargingDialog(@NonNull Context context) {
         super(context);
         this.context = context;
+    }
+
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String getTime = dateFormat.format(date);
+        return getTime;
     }
 
     @Override
@@ -70,6 +81,19 @@ public class ChargingDialog extends Dialog {
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        //차량번호 저장
+        myRef.child("Users").child(user.getUid()).child("number").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CarNumber = snapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
 
         //충전 탭 버튼
         button6.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +169,7 @@ public class ChargingDialog extends Dialog {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getValue(Integer.class);
-                        if(value > c_point) {
+                        if(value < c_point) {
                             Toast.makeText(context, "보유포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             value -= c_point;
@@ -159,8 +183,8 @@ public class ChargingDialog extends Dialog {
                     }
                 });
 
-//                //사용내역 데이터베이스 입력
-//                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
+                //사용내역 데이터베이스 입력
+                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
             }
         });
 
