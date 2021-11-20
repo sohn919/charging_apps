@@ -31,6 +31,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.john990:WaveView:v0.9'
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.0')

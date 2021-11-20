@@ -3,18 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/charging_apps/app/src/main/res/drawable/battery_stroke.xml" value="0.24114583333333334" />
+        <entry key="..\:/charging_apps/app/src/main/res/drawable/stroke.xml" value="0.24114583333333334" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_battery.xml" value="0.225" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_login.xml" value="0.16983695652173914" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_maps.xml" value="0.23324275362318841" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_point.xml" value="0.225" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_register.xml" value="0.26979166666666665" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_splash.xml" value="0.2994791666666667" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_toolbar.xml" value="0.2703125" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/battery.xml" value="0.225" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.22554347826086957" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/charge_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/charging_loading.xml" value="0.26979166666666665" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_charging.xml" value="0.26979166666666665" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_loading.xml" value="0.2" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_menu.xml" value="0.24479166666666666" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/drawer_header.xml" value="0.25407608695652173" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/history_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.13854166666666667" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/point_panel.xml" value="0.165625" />
+        <entry key="..\:/charging_apps/app/src/main/res/menu/drawer.xml" value="0.30625" />
+        <entry key="..\:/charging_apps/app/src/main/res/menu/menu.xml" value="0.30625" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_login.xml" value="0.2390625" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_main.xml" value="0.21603260869565216" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_register.xml" value="0.2942708333333333" />

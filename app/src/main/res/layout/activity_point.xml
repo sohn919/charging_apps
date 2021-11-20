@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Listview1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFFFFFFF">
+    tools:context=".Splash">
 
 
     <LinearLayout
@@ -28,7 +29,7 @@
 
 
                 <Button
-                    android:id="@+id/Button6"
+                    android:id="@+id/button1"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
@@ -36,7 +37,7 @@
 
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/button2"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
@@ -44,22 +45,22 @@
 
 
                 <Button
-                    android:id="@+id/button8"
-                    android:layout_width="70dp"
+                    android:id="@+id/button3"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
                     android:text="1만" />
 
 
                 <Button
-                    android:id="@+id/button9"
+                    android:id="@+id/button4"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
                     android:text="5만" />
 
                 <Button
-                    android:id="@+id/button10"
+                    android:id="@+id/button5"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
@@ -84,35 +85,19 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/c_pointtext2"
-                    android:layout_width="120dp"
+                    android:id="@+id/pointtext2"
+                    android:layout_width="288dp"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFFFF"
                     android:gravity="center"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_width="65dp"
+                    android:layout_width="93dp"
                     android:layout_height="match_parent"
                     android:background="#FFFFFFFF"
                     android:gravity="center"
                     android:text="P"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/c_amounttext"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFFFF"
-                    android:gravity="center"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="65dp"
-                    android:layout_height="match_parent"
-                    android:background="#FFFFFFFF"
-                    android:gravity="center"
-                    android:text="kWh"
                     android:textSize="20sp" />
 
             </TableRow>
@@ -134,20 +119,11 @@
                 android:layout_marginBottom="10dp">
 
                 <Button
-                    android:id="@+id/i_button"
-                    android:layout_width="182dp"
+                    android:id="@+id/test"
+                    android:layout_width="372dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="포인트 초기화"
-                    android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/c_button"
-                    android:layout_width="182dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="충전"
-                    android:textSize="20sp" />
+                    android:text="결제"
+                    android:textSize="24sp" />
 
             </TableRow>
 
@@ -156,4 +132,4 @@
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

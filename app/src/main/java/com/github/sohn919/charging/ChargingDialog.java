@@ -145,11 +145,13 @@ public class ChargingDialog extends Dialog {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getValue(Integer.class);
-                        value -= c_point;
-                        myRef.child("Users").child(user.getUid()).child("point").setValue(value);
-
-                        //String message = "";
-                        //Log.d(c_amount+" 충전중입니다.", message);
+                        if(value > c_point) {
+                            Toast.makeText(context, "보유포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            value -= c_point;
+                            myRef.child("Users").child(user.getUid()).child("point").setValue(value);
+                            Toast.makeText(context, "충전을 시작합니다.", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
