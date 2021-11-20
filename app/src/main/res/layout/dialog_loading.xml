@@ -133,7 +133,7 @@
                     android:layout_width="180dp"
                     android:layout_height="50dp"
                     android:background="@drawable/stroke3"
-                    android:textColor="#FFEB3B"
+                    android:textColor="#858484"
                     android:textStyle="bold"
                     android:textSize="18dp"
                     android:text="신고하기" />

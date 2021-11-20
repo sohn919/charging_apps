@@ -13,10 +13,10 @@
         android:id="@+id/wave_view"
         android:layout_width="134dp"
         android:layout_height="197dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/battery_stroke"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         wave:above_wave_color="#FF9800"
@@ -29,27 +29,27 @@
     </com.john.waveview.WaveView>
 
     <TextView
-        android:id="@+id/chargetext"
-        android:layout_width="108dp"
-        android:layout_height="88dp"
-        android:layout_marginTop="148dp"
-        android:gravity="center"
-        android:textSize="48sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.719"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView5"
         android:layout_width="130dp"
         android:layout_height="27dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="208dp"
         android:gravity="center"
         android:text="충전되었습니다."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.775"
+        app:layout_constraintHorizontal_bias="0.768"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/chargetext"
+        android:layout_width="108dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="132dp"
+        android:gravity="center"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.712"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
