@@ -124,11 +124,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String title = menuItem.getTitle().toString();
 
                 if(id == R.id.pointcharging){
+                    menuItem.setChecked(false);
                     Intent intent = new Intent(MainActivity.this, PointActivity.class);
                     startActivity(intent);
                 }
                 else if(id == R.id.history){
-                    Toast.makeText(context, "사용내역", Toast.LENGTH_SHORT).show();
+                    menuItem.setChecked(false);
+                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                    startActivity(intent);
                 }
                 else if(id == R.id.admin){
                     Toast.makeText(context, "관리자", Toast.LENGTH_SHORT).show();

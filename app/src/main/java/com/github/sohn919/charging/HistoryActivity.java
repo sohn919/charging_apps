@@ -40,8 +40,8 @@ public class HistoryActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
     private DatabaseReference myRef = mDatabase.getReference(); // DB 테이블 연결
     private FirebaseAuth firebaseAuth;
-    private String sDate = "";
-    private String eDate = "";
+    private String sDate = "2021-11-01";
+    private String eDate = "2021-12-31";
     private String dDate = "";
     String s_month = "";
     String s_day = "";
@@ -59,6 +59,8 @@ public class HistoryActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener callbackMethod;
     private DatePickerDialog.OnDateSetListener callbackMethod2;
 
+    private Button btn1, btn2;
+
 
 
     @Override
@@ -66,7 +68,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        this.InitializeView();
+//        this.InitializeView();
         this.InitializeListener();
         this.InitializeListener2();
 
@@ -81,6 +83,8 @@ public class HistoryActivity extends AppCompatActivity {
         listView2.setAdapter(dataAdapter2);
 
         sButton = findViewById(R.id.s_button);
+        btn1 = findViewById(R.id.btn1);
+        btn2 = findViewById(R.id.btn2);
 
 
         sButton.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +171,11 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
-    public void InitializeView()
-    {
-        textView_Date = (TextView)findViewById(R.id.textView_date);
-        textView_Date2 = (TextView)findViewById(R.id.textView_date2);
-    }
+//    public void InitializeView()
+//    {
+//        textView_Date = (TextView)findViewById(R.id.textView_date);
+//        textView_Date2 = (TextView)findViewById(R.id.textView_date2);
+//    }
 
     public void InitializeListener()
     {
@@ -193,7 +197,7 @@ public class HistoryActivity extends AppCompatActivity {
                 else{
                     s_day = Integer.toString(dayOfMonth);
                 }
-                textView_Date.setText(year + "-" + s_month + "-" + s_day);
+                btn1.setText(year + "-" + s_month + "-" + s_day);
                 sDate = year + "-" + s_month + "-" + s_day;
             }
         };
@@ -219,7 +223,7 @@ public class HistoryActivity extends AppCompatActivity {
                 else{
                     s_day = Integer.toString(dayOfMonth);
                 }
-                textView_Date2.setText(year + "-" + s_month + "-" + s_day);
+                btn1.setText(year + "-" + s_month + "-" + s_day);
                 eDate = year + "-" + s_month + "-" + s_day;
             }
         };
@@ -227,13 +231,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void OnClickHandler(View view)
     {
-        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, 2021, 11, 19);
+        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod, 2021, 10, 1);
         dialog.show();
     }
 
     public void OnClickHandler2(View view)
     {
-        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod2, 2021, 11, 19);
+        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod2, 2021, 11, 31);
         dialog.show();
     }
 

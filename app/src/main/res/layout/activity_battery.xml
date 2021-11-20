@@ -13,10 +13,10 @@
         android:id="@+id/wave_view"
         android:layout_width="134dp"
         android:layout_height="197dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/battery_stroke"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.227"
+        app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         wave:above_wave_color="#FF9800"
@@ -24,33 +24,32 @@
         wave:progress="80"
         wave:wave_height="middle"
         wave:wave_hz="normal"
-        wave:wave_length="middle" >
+        wave:wave_length="middle">
 
     </com.john.waveview.WaveView>
-
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="130dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="188dp"
-        android:gravity="center"
-        android:text="충전되었습니다."
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.782"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/chargetext"
         android:layout_width="108dp"
         android:layout_height="88dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="148dp"
         android:gravity="center"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="130dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="224dp"
+        android:gravity="center"
+        android:text="충전되었습니다."
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.775"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
