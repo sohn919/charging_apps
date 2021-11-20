@@ -52,7 +52,7 @@ public class ChargingDialog extends Dialog {
     private String getTime() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String getTime = dateFormat.format(date);
         return getTime;
     }

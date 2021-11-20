@@ -34,8 +34,8 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".PointActivity"/>
         <activity android:name=".HistoryActivity"/>
+        <activity android:name=".PayActivity"/>
     </application>
 
 </manifest>

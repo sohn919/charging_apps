@@ -1,10 +1,15 @@
 package com.github.sohn919.charging;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import kr.co.bootpay.Bootpay;
 import kr.co.bootpay.BootpayAnalytics;
 import kr.co.bootpay.enums.Method;
@@ -34,81 +41,29 @@ import kr.co.bootpay.model.BootExtra;
 import kr.co.bootpay.model.BootUser;
 
 
-public class PointActivity extends AppCompatActivity {
-
-    private int point = 0;
-    Button button, button1, button2, button3, button4, button5;
-    TextView pointtext;
-    private int stuck = 10;
+public class PayActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = mDatabase.getReference();
     private FirebaseAuth firebaseAuth;
+    private int point;
+    private int stuck = 10;
 
     protected void onCreate(Bundle savedInstanceStare) {
         super.onCreate(savedInstanceStare);
-        setContentView(R.layout.activity_point);
 
+
+        Intent intent = getIntent();
+        point = intent.getIntExtra("point", 0);
         // 초기설정 - 해당 프로젝트(안드로이드)의 application id 값을 설정합니다. 결제와 통계를 위해 꼭 필요합니다.
         // 앱에서 확인하지 말고 꼭 웹 사이트에서 확인하자. 앱의 application id 갖다 쓰면 안됨!!!
         BootpayAnalytics.init(this, "61910e247b5ba4b3a352b0d0");
 
-        //포인트 충전 탭
-        button = findViewById(R.id.test);
-        button1 = findViewById(R.id.button1);
-        button2 = findViewById(R.id.button2);
-        button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
-        button5 = findViewById(R.id.button5);
-        pointtext = findViewById(R.id.pointtext2);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        //포인트 탭 버튼
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point = 1000;
-                pointtext.setText(Integer.toString(point));
-            }
-        });
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point = 5000;
-                pointtext.setText(Integer.toString(point));
-            }
-        });
-
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point = 10000;
-                pointtext.setText(Integer.toString(point));
-            }
-        });
-
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point = 50000;
-                pointtext.setText(Integer.toString(point));
-            }
-        });
-
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                point = 100000;
-                pointtext.setText(Integer.toString(point));
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 BootUser bootUser = new BootUser().setPhone("010-8371-1690"); // !! 자신의 핸드폰 번호로 바꾸기
                 BootExtra bootExtra = new BootExtra().setQuotas(new int[]{0, 2, 3});
 
@@ -116,7 +71,7 @@ public class PointActivity extends AppCompatActivity {
                         .setApplicationId("61910e247b5ba4b3a352b0d0") // 해당 프로젝트(안드로이드)의 application id 값(위의 값 복붙)
                         .setPG(PG.INICIS) // 결제할 PG 사
                         .setMethod(Method.CARD) // 결제수단
-                        .setContext(PointActivity.this)
+                        .setContext(PayActivity.this)
                         .setBootUser(bootUser)
                         .setBootExtra(bootExtra)
                         .setUX(UX.PG_DIALOG)
@@ -177,9 +132,6 @@ public class PointActivity extends AppCompatActivity {
                                 })
                         .request();
             }
-        });
-
-    }
 
 }
 

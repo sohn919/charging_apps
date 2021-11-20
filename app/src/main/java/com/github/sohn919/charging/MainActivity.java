@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double latitude;
     private LoadingDialog loadingDialog;
 
+    private PointDialog pointDialog;
+
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = mDatabase.getReference();
     private FirebaseAuth firebaseAuth;
@@ -125,8 +127,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if(id == R.id.pointcharging){
                     menuItem.setChecked(false);
-                    Intent intent = new Intent(MainActivity.this, PointActivity.class);
-                    startActivity(intent);
+
+                    DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+                    int width = dm.widthPixels; //디바이스 화면 너비
+                    int height = dm.heightPixels; //디바이스 화면 높이
+                    //로딩이미지 gif 형식
+                    pointDialog = new PointDialog(MainActivity.this);
+                    WindowManager.LayoutParams wm = pointDialog.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+                    wm.copyFrom(pointDialog.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+                    wm.width = (int)(width *0.5);  //화면 너비의 절반
+                    wm.height = (int)(height *0.5);
+                    pointDialog.show();
                 }
                 else if(id == R.id.history){
                     menuItem.setChecked(false);
