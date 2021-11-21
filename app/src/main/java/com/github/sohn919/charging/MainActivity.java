@@ -144,6 +144,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                     startActivity(intent);
                 }
+                else if(id == R.id.payment){
+                    menuItem.setChecked(false);
+                    Intent intent = new Intent(MainActivity.this, NfcActivity.class);
+                    startActivity(intent);
+                }
                 else if(id == R.id.admin){
                     Intent intent = new Intent(MainActivity.this, ManageActivity.class);
                     startActivity(intent);

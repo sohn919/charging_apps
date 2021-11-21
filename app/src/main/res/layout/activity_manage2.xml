@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/manage_img"
     tools:context=".ManageActivity2">
+
+    <include  layout="@layout/activity_toolbar"/>
 
     <ListView
         android:id="@+id/listView_4"
