@@ -145,7 +145,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
                 else if(id == R.id.admin){
-                    Toast.makeText(context, "관리자", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, ManageActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(context, "관리자 메뉴", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

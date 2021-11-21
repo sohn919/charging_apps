@@ -1,7 +1,9 @@
 package com.github.sohn919.charging;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,18 +17,38 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 
 public class LoadingDialog extends Dialog {
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = mDatabase.getReference();
+
     Button button1, button2;
     Context context;
     private ChargingDialog chargingDialog;
+    private AlertDialog alertDialog;
+    private int inum;
 
     LoadingDialog(@NonNull Context context) {
         super(context);
         this.context = context;
+    }
+
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String getTime = dateFormat.format(date);
+        return getTime;
     }
 
     @Override
@@ -41,6 +63,32 @@ public class LoadingDialog extends Dialog {
 
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+                dlg.setTitle("고장신고"); //제목
+                final String[] versionArray = new String[] {"어댑터 외부가 망가졌어요","충전이 안돼요","NFC카드가 인식이 안돼요"};
+
+                inum = 0;
+                dlg.setSingleChoiceItems(versionArray, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        inum = which;
+                    }
+                });
+//                버튼 클릭시 동작
+                dlg.setPositiveButton("확인",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which) {
+                        myRef.child("Breakdown").child(getTime()).setValue(versionArray[inum]);
+                        //토스트 메시지
+                        Toast.makeText(context, "신고접수 되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dlg.show();
+            }
+        });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override

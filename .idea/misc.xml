@@ -8,15 +8,21 @@
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_battery.xml" value="0.20052083333333334" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_date.xml" value="0.10989583333333333" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_history.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_manage.xml" value="0.335" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_manage2.xml" value="0.335" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_maps.xml" value="0.23324275362318841" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_pay.xml" value="0.18645833333333334" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_point.xml" value="0.2390625" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_register.xml" value="0.2390625" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_point.xml" value="0.16666666666666666" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_splash.xml" value="0.16666666666666666" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_toolbar.xml" value="0.16666666666666666" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.22554347826086957" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/charge_panel.xml" value="0.25" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_break.xml" value="0.22735507246376813" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_charging.xml" value="0.1953125" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_loading.xml" value="0.2046875" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_manage.xml" value="0.1" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/dialog_point.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/drawer_header.xml" value="0.2572463768115942" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/history_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.13854166666666667" />
