@@ -181,6 +181,8 @@ public class ChargingDialog extends Dialog {
                             myRef.child("ready").setValue(1); // 아두이노 릴레이모듈 전원 ON
                             myRef.child("Users").child(user.getUid()).child("point").setValue(value);       //보유충전량
 
+                            Log.e("차량 번호 잘 들어옴??????????? : ",""+CarNumber);
+
                             Toast.makeText(context, "충전을 시작합니다.", Toast.LENGTH_SHORT).show();
                             dismiss();
                         }
@@ -201,6 +203,9 @@ public class ChargingDialog extends Dialog {
                             if(value.equals(getTime())){
                                 d_point = c_point + (int) snapshot.getValue(Integer.class);
                                 myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(d_point);
+                            }
+                            else{
+                                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
                             }
                         }
                     }

@@ -79,6 +79,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 String uid = user.getUid();
                                 String number = mNumber.getText().toString().trim();
 
+
+
+
                                 //해쉬맵 테이블을 파이어베이스 데이터베이스에 저장
                                 HashMap<Object,String> hashMap = new HashMap<>();
 
@@ -89,10 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference reference = database.getReference("Users");
+                                DatabaseReference myRef = database.getReference("UHistory");
+
                                 reference.child(uid).setValue(hashMap);
                                 reference.child(uid).child("point").setValue(0);
                                 reference.child(uid).child("admin").setValue(0);
                                 reference.child(uid).child("chargepoint").setValue(1000);
+                                myRef.child(number).child("1970-01-01").setValue(0);
 
 
                                 //가입이 이루어져을시 가입 화면을 빠져나감.
