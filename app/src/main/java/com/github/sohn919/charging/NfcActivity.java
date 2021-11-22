@@ -1,6 +1,7 @@
 package com.github.sohn919.charging;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -30,6 +31,7 @@ public class NfcActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private TextView tagDesc;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,12 +94,22 @@ public class NfcActivity extends AppCompatActivity {
             myRef.child("Users").child(user.getUid()).child("nfc").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Intent intent = getIntent();
+                    int count = intent.getIntExtra("count", 0);
+
+
                     myRef.child("Users").child(user.getUid()).child("nfc").setValue(toHexString(tagId));
+                    myRef.child("nfc").child(Integer.toString(count)).child("nfc").setValue(toHexString(tagId));
+                    myRef.child("nfc").child(Integer.toString(count)).child("uid").setValue(user.getUid());
+
+                    finish();
+
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
+
         }
     }
 

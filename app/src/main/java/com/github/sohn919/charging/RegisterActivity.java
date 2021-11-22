@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 DatabaseReference reference = database.getReference("Users");
                                 reference.child(uid).setValue(hashMap);
                                 reference.child(uid).child("point").setValue(0);
-                                reference.child(uid).child("electric").setValue(0);
+                                reference.child(uid).child("chargepoint").setValue(1000);
 
 
                                 //가입이 이루어져을시 가입 화면을 빠져나감.

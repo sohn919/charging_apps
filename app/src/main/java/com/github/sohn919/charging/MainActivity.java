@@ -57,6 +57,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.annotations.NotNull;
 import com.john.waveview.WaveView;
 
 
@@ -84,9 +85,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView chargetext;
     private int c_point = 0; // 충전탭 포인트
     private int u_point = 0; // 현재 사용자 보유 포인트
+    private int CPoint = 0; //  db에서 가져온 목표충전량
+    private int rtcharge = 0; // 현재 충전량
     private double dc_point = 0;
     private double c_amount = 0; // 충전탭 전력량
     private String adminCheck = "0";
+
+    private int count, i = 1;
 
     private WaveView waveView;
 
@@ -157,9 +162,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
                 else if(id == R.id.payment){
-                    menuItem.setChecked(false);
-                    Intent intent = new Intent(MainActivity.this, NfcActivity.class);
-                    startActivity(intent);
+                    myRef.child("nfc").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Object num = snapshot.getKey();
+                                if(Integer.toString(i).equals(num.toString())) {
+                                    i++;
+                                } else {
+                                    count = i;
+                                    Log.e("현재 값은?????????????????????????", "" + count);
+
+                                    Intent intent = new Intent(MainActivity.this, NfcActivity.class);
+                                    intent.putExtra("count", count);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        }
+                    });
+
                 }
                 else if(id == R.id.admin){
                     myRef.child("Users").child(user.getUid()).child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -251,14 +276,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         waveView = (WaveView) findViewById(R.id.wave_view);
-        //충전량 표시
-        myRef.child("Users").child(user.getUid()).child("electric").addValueEventListener(new ValueEventListener() {
+
+        //1.DB에서 목표충전량(chargepoint -> CPoint에 저장)
+        myRef.child("Users").child(user.getUid()).child("chargepoint").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Integer value = snapshot.getValue(Integer.class);
-                value = value /100;
-                waveView.setProgress(value);
-                chargetext.setText(value.toString() + "%");
+                CPoint = snapshot.getValue(Integer.class);
+                Log.e("db에서 가져온 목표충전량 : ",""+CPoint);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        //2.현재 충전량을 가져옴(charge)
+        //충전량 표시
+        myRef.child("charge").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Integer ch = snapshot.getValue(Integer.class);
+                Log.e("db에서 가져온 목표충전량222 : ",""+CPoint);
+                Log.e("현재충전량 : ",""+ch);
+                ch = ch * 100 / CPoint ;
+                Log.e("현재충전량222: ",""+ch);;
+                waveView.setProgress(ch);
+                chargetext.setText(ch + "%");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -32,7 +32,7 @@
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
-                    android:text="1천" />
+                    android:text="1백" />
 
 
                 <Button
@@ -40,7 +40,7 @@
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
-                    android:text="5천" />
+                    android:text="5백" />
 
 
                 <Button
@@ -48,7 +48,7 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
-                    android:text="1만" />
+                    android:text="1천" />
 
 
                 <Button
@@ -56,14 +56,14 @@
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
-                    android:text="5만" />
+                    android:text="5천" />
 
                 <Button
                     android:id="@+id/button10"
                     android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:background="@drawable/stroke"
-                    android:text="10만" />
+                    android:text="1만" />
 
 
             </TableRow>

@@ -41,8 +41,9 @@ public class ChargingDialog extends Dialog {
     TextView c_amounttext;
     Context context;
     private int point = 0;
-    private int c_point = 0; // 충전탭 포인트
-    private double dc_point = 0;
+    private int c_point = 0; // 충전 포인트
+    private int d_point = 0; // 사용내역 저장될 충전포인트
+    private double dc_point = 0; // 충전포인트 flaot
     private double c_amount = 0; // 충전탭 전력량
     String CarNumber = "";
 
@@ -102,7 +103,7 @@ public class ChargingDialog extends Dialog {
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c_point += 1000;
+                c_point += 100;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
                 c_amount = dc_point / 100000 * 575;
@@ -113,7 +114,7 @@ public class ChargingDialog extends Dialog {
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c_point += 5000;
+                c_point += 500;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
                 c_amount = dc_point / 100000 * 575;
@@ -124,7 +125,7 @@ public class ChargingDialog extends Dialog {
         button8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c_point += 10000;
+                c_point += 1000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
                 c_amount = dc_point / 100000 * 575;
@@ -135,7 +136,7 @@ public class ChargingDialog extends Dialog {
         button9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c_point += 50000;
+                c_point += 5000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
                 c_amount = dc_point / 100000 * 575;
@@ -146,7 +147,7 @@ public class ChargingDialog extends Dialog {
         button10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c_point += 100000;
+                c_point += 10000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
                 c_amount = dc_point / 100000 * 575;
@@ -176,8 +177,12 @@ public class ChargingDialog extends Dialog {
                             Toast.makeText(context, "보유포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             value -= c_point;
-                            myRef.child("Users").child(user.getUid()).child("point").setValue(value);
+                            myRef.child("Users").child(user.getUid()).child("chargepoint").setValue(c_point);    //목표충전량
+                            myRef.child("ready").setValue(1); // 아두이노 릴레이모듈 전원 ON
+                            myRef.child("Users").child(user.getUid()).child("point").setValue(value);       //보유충전량
+
                             Toast.makeText(context, "충전을 시작합니다.", Toast.LENGTH_SHORT).show();
+                            dismiss();
                         }
                     }
 
@@ -194,8 +199,8 @@ public class ChargingDialog extends Dialog {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String value = snapshot.getKey();
                             if(value.equals(getTime())){
-                                c_point = c_point + (int) snapshot.getValue(Integer.class);
-                                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
+                                d_point = c_point + (int) snapshot.getValue(Integer.class);
+                                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(d_point);
                             }
                         }
                     }
