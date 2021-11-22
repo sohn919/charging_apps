@@ -162,6 +162,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
                 else if(id == R.id.payment){
+                    Intent intent = new Intent(MainActivity.this, NfcActivity.class);
+                    startActivity(intent);
+
+                    /*
                     myRef.child("nfc").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -183,8 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         @Override
                         public void onCancelled(@NonNull @NotNull DatabaseError error) {
                         }
-                    });
-
+                     */
                 }
                 else if(id == R.id.admin){
                     myRef.child("Users").child(user.getUid()).child("admin").addListenerForSingleValueEvent(new ValueEventListener() {

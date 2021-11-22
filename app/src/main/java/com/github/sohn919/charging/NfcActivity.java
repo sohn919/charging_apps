@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class NfcActivity extends AppCompatActivity {
     private TextView tagDesc;
     Context context;
 
+    private int db_count = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,21 @@ public class NfcActivity extends AppCompatActivity {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         Intent intent = new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        //NFC DB 순서 불러오기
+        myRef.child("count").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                db_count = (int) snapshot.getValue(Integer.class);
+                Log.e("db카운트 값 : ",""+db_count);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter == null){
@@ -91,17 +109,19 @@ public class NfcActivity extends AppCompatActivity {
             byte[] tagId = tag.getId();
 
             FirebaseUser user = firebaseAuth.getCurrentUser();
+
+
             myRef.child("Users").child(user.getUid()).child("nfc").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Intent intent = getIntent();
-                    int count = intent.getIntExtra("count", 0);
 
+                    db_count += 1;
+
+                    myRef.child("nfc").child(Integer.toString(db_count)).child("nfc").setValue(toHexString(tagId));
+                    myRef.child("nfc").child(Integer.toString(db_count)).child("uid").setValue(user.getUid());
+                    myRef.child("count").setValue(db_count);
 
                     myRef.child("Users").child(user.getUid()).child("nfc").setValue(toHexString(tagId));
-                    myRef.child("nfc").child(Integer.toString(count)).child("nfc").setValue(toHexString(tagId));
-                    myRef.child("nfc").child(Integer.toString(count)).child("uid").setValue(user.getUid());
-
                     finish();
 
                 }
