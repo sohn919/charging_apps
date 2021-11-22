@@ -13,9 +13,8 @@
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_manage.xml" value="0.335" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_manage2.xml" value="0.335" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_maps.xml" value="0.23324275362318841" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_nfc.xml" value="0.1897644927536232" />
+        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_nfc.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_point.xml" value="0.16666666666666666" />
-        <entry key="..\:/charging_apps/app/src/main/res/layout/activity_register.xml" value="0.15364583333333334" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_splash.xml" value="0.16666666666666666" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/activity_toolbar.xml" value="0.16666666666666666" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.22554347826086957" />
@@ -29,7 +28,6 @@
         <entry key="..\:/charging_apps/app/src/main/res/layout/history_panel.xml" value="0.25" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.13854166666666667" />
         <entry key="..\:/charging_apps/app/src/main/res/layout/point_panel.xml" value="0.165625" />
-        <entry key="..\:/charging_apps/app/src/main/res/menu/drawer.xml" value="0.29010416666666666" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_login.xml" value="0.2390625" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_main.xml" value="0.21603260869565216" />
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/layout/activity_register.xml" value="0.2942708333333333" />

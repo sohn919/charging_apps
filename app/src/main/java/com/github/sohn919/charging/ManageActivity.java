@@ -83,12 +83,13 @@ public class ManageActivity extends AppCompatActivity {
             }
         });
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        //FirebaseUser user = firebaseAuth.getCurrentUser(); 현재 로그인한 유저정보
+        FirebaseUser user = firebaseAuth.getCurrentUser(); //현재 로그인한 유저정보
 
 
         //어댑터 번호저장
-        myRef.child("Users").child("DI6nXrseplNB59AEd7JzIZj0CeO2").child("manager").addValueEventListener(new ValueEventListener() {
+        myRef.child("Users").child(user.getUid()).child("admin").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Object man = snapshot.getValue(Object.class);

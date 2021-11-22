@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,12 +41,13 @@ public class HistoryActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance(); // 파이어베이스 데이터베이스 연동
     private DatabaseReference myRef = mDatabase.getReference(); // DB 테이블 연결
     private FirebaseAuth firebaseAuth;
+
     private String sDate = "2021-11-01";
     private String eDate = "2021-12-31";
     private String dDate = "";
     String s_month = "";
     String s_day = "";
-    String CarNumber = "";
+    private String CarNumber = "";
     Button sButton;
 
     private ListView listView;
@@ -67,6 +69,29 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
+        if (firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        //유저가 있다면, null이 아니면 계속 진행
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        //차량번호 저장
+        myRef.child("Users").child(user.getUid()).child("number").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CarNumber = snapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
 
 //        this.InitializeView();
         this.InitializeListener();
@@ -90,7 +115,7 @@ public class HistoryActivity extends AppCompatActivity {
         sButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef.child("UHistory").child("107부1999").addValueEventListener(new ValueEventListener() {
+                myRef.child("UHistory").child(CarNumber).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                         dataAdapter.clear();
@@ -113,7 +138,7 @@ public class HistoryActivity extends AppCompatActivity {
                     }
                 });
 
-                myRef.child("UHistory").child("107부1999").addValueEventListener(new ValueEventListener() {
+                myRef.child("UHistory").child(CarNumber).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                         dataAdapter2.clear();
@@ -223,7 +248,7 @@ public class HistoryActivity extends AppCompatActivity {
                 else{
                     s_day = Integer.toString(dayOfMonth);
                 }
-                btn1.setText(year + "-" + s_month + "-" + s_day);
+                btn2.setText(year + "-" + s_month + "-" + s_day);
                 eDate = year + "-" + s_month + "-" + s_day;
             }
         };

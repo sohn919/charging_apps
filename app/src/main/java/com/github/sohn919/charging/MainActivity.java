@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int u_point = 0; // 현재 사용자 보유 포인트
     private double dc_point = 0;
     private double c_amount = 0; // 충전탭 전력량
+    private String adminCheck = "0";
 
     private WaveView waveView;
 
@@ -104,6 +105,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
+        if (firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        //유저가 있다면, null이 아니면 계속 진행
+        FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -150,9 +162,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
                 else if(id == R.id.admin){
-                    Intent intent = new Intent(MainActivity.this, ManageActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(context, "관리자 메뉴", Toast.LENGTH_SHORT).show();
+                    myRef.child("Users").child(user.getUid()).child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           Object admin = snapshot.getValue();
+                           Log.e("가져온거",""+admin);
+                           adminCheck = admin.toString();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+
+                    if(adminCheck.equals("0")){
+                        Toast.makeText(context, "관리자 계정이 아닙니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, ManageActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(context, "관리자 메뉴", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 return true;
             }
@@ -188,16 +218,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         textViewUPoint = (TextView) header.findViewById(R.id.textViewUPoint);
         textViewCarNumber = (TextView) header.findViewById(R.id.textViewCarNumber);
         chargetext = (TextView) findViewById(R.id.chargetext);
-        firebaseAuth = FirebaseAuth.getInstance();
 
-
-        //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
-        if (firebaseAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-        //유저가 있다면, null이 아니면 계속 진행
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         //textViewUserEmail의 내용을 변경해 준다.
         textViewUserEmail.setText(user.getEmail() + "으로 로그인 하였습니다.");
 

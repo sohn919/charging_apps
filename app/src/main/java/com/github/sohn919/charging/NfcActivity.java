@@ -36,7 +36,7 @@ public class NfcActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
 
-        tagDesc = (TextView)findViewById(R.id.tagDesc);
+        //tagDesc = (TextView)findViewById(R.id.tagDesc);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
