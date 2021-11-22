@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 DatabaseReference reference = database.getReference("Users");
                                 reference.child(uid).setValue(hashMap);
                                 reference.child(uid).child("point").setValue(0);
+                                reference.child(uid).child("admin").setValue(0);
                                 reference.child(uid).child("chargepoint").setValue(1000);
 
 

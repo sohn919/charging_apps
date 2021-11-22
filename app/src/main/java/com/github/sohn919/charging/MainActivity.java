@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         myRef.child("Users").child(user.getUid()).child("chargepoint").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                CPoint = snapshot.getValue(Integer.class);
+                CPoint = (int) snapshot.getValue(Integer.class);
                 Log.e("db에서 가져온 목표충전량 : ",""+CPoint);
             }
             @Override
@@ -298,9 +298,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer ch = snapshot.getValue(Integer.class);
+                Log.e("uid는????? :",""+user.getUid());
                 Log.e("db에서 가져온 목표충전량222 : ",""+CPoint);
-                Log.e("현재충전량 : ",""+ch);
-                ch = ch * 100 / CPoint ;
+                if(CPoint == 0){
+                    CPoint = 100;
+                }
+                ch = (ch * 100) / CPoint ;
                 Log.e("현재충전량222: ",""+ch);;
                 waveView.setProgress(ch);
                 chargetext.setText(ch + "%");
