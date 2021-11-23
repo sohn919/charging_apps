@@ -196,20 +196,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                            Object admin = snapshot.getValue();
                            Log.e("가져온거",""+admin);
                            adminCheck = admin.toString();
+
+                            if(adminCheck.equals("0")){
+                                Toast.makeText(context, "관리자 계정이 아닙니다.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Intent intent = new Intent(MainActivity.this, ManageActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(context, "관리자 메뉴", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                         }
                     });
 
-                    if(adminCheck.equals("0")){
-                        Toast.makeText(context, "관리자 계정이 아닙니다.", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Intent intent = new Intent(MainActivity.this, ManageActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(context, "관리자 메뉴", Toast.LENGTH_SHORT).show();
-                    }
 
                 }
                 return true;
@@ -305,6 +306,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 ch = (ch * 100) / CPoint ;
                 Log.e("현재충전량222: ",""+ch);;
+                if(ch >= 100){
+                    ch = 100;
+                    waveView.setProgress(ch);
+                    chargetext.setText(ch + "%");
+                    Toast.makeText(MainActivity.this, "충전이 완료 되었습니다 !", Toast.LENGTH_SHORT).show();
+                    myRef.child("ready").setValue(0);
+                }
                 waveView.setProgress(ch);
                 chargetext.setText(ch + "%");
             }

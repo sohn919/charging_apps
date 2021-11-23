@@ -106,7 +106,7 @@ public class ChargingDialog extends Dialog {
                 c_point += 100;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -117,7 +117,7 @@ public class ChargingDialog extends Dialog {
                 c_point += 500;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -128,7 +128,7 @@ public class ChargingDialog extends Dialog {
                 c_point += 1000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -139,7 +139,7 @@ public class ChargingDialog extends Dialog {
                 c_point += 5000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -150,7 +150,7 @@ public class ChargingDialog extends Dialog {
                 c_point += 10000;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -161,7 +161,7 @@ public class ChargingDialog extends Dialog {
                 c_point = 0;
                 c_pointtext.setText(Integer.toString(c_point));
                 dc_point = (double) c_point;
-                c_amount = dc_point / 100000 * 575;
+                c_amount = dc_point / 200;
                 c_amounttext.setText(Double.toString(c_amount));
             }
         });
@@ -178,6 +178,7 @@ public class ChargingDialog extends Dialog {
                         } else {
                             value -= c_point;
                             myRef.child("Users").child(user.getUid()).child("chargepoint").setValue(c_point);    //목표충전량
+                            myRef.child("charge").setValue(0);
                             myRef.child("ready").setValue(1); // 아두이노 릴레이모듈 전원 ON
                             myRef.child("Users").child(user.getUid()).child("point").setValue(value);       //보유충전량
 
@@ -193,6 +194,22 @@ public class ChargingDialog extends Dialog {
                     }
                 });
 
+                //income에 c_point(충전가격더하기)
+                myRef.child("income").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int value = (int)snapshot.getValue(Integer.class);
+                        int value2 = c_point + value;
+                        myRef.child("income").setValue(value2);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
                 //사용내역 데이터베이스 입력
 
                 myRef.child("UHistory").child(CarNumber).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -200,12 +217,18 @@ public class ChargingDialog extends Dialog {
                     public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String value = snapshot.getKey();
+                            Log.e("불러온값???? : ",""+value);
+                            if(!value.equals(getTime())){
+                                Log.e("else안에 있는 c_point??? : ",""+c_point);
+                                myRef.child("UHistory").child(CarNumber).child("1970-01-01").setValue(null);
+                                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
+                            }
                             if(value.equals(getTime())){
                                 d_point = c_point + (int) snapshot.getValue(Integer.class);
+                                myRef.child("UHistory").child(CarNumber).child("1970-01-01").setValue(null);
                                 myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(d_point);
-                            }
-                            else{
-                                myRef.child("UHistory").child(CarNumber).child(getTime()).setValue(c_point);
+                                Log.e("if안에 있는 c_point??? : ",""+c_point);
+                                Log.e("if안에 있는 d_point??? : ",""+d_point);
                             }
                         }
                     }

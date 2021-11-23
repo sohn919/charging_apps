@@ -103,6 +103,7 @@ public class ManageActivity extends AppCompatActivity {
 
 
         //총 수입
+        /*
         myRef.child("UHistory").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,27 +123,43 @@ public class ManageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-
-
-        // Listview1 차량번호
-        myRef.child("UHistory").addValueEventListener(new ValueEventListener() {
+        */
+        // income만 불러오기
+        myRef.child("income").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                dataAdapter_1.clear();
-                for (DataSnapshot snapshot_A : dataSnapshot.getChildren()) {
-                    for (DataSnapshot snapshot_B : snapshot_A.getChildren()){
-                        Object value = snapshot_A.getKey();
-                        dataAdapter_1.add(value);
-                    }
-                }
-                dataAdapter_1.notifyDataSetChanged();
-                listView_1.setSelection(dataAdapter_1.getCount() - 1);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int value = (int)snapshot.getValue(Integer.class);
+                income = value;
+                textView_income.setText(income + " 원");
+                ele = income / 200 ;                           // 총수입 -> 전력사용량
+                textView_ele.setText(ele + " kWh ");
             }
             @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+                // Listview1 차량번호
+                myRef.child("UHistory").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                        dataAdapter_1.clear();
+                        for (DataSnapshot snapshot_A : dataSnapshot.getChildren()) {
+                            for (DataSnapshot snapshot_B : snapshot_A.getChildren()) {
+                                Object value = snapshot_A.getKey();
+                                dataAdapter_1.add(value);
+                            }
+                        }
+                        dataAdapter_1.notifyDataSetChanged();
+                        listView_1.setSelection(dataAdapter_1.getCount() - 1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                    }
+                });
 
 
         // Listview2 충전날짜
