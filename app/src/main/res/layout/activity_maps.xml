@@ -5,5 +5,5 @@
     android:layout_height="0dp"
     android:id="@+id/map"
     tools:context=".MainActivity"
-    android:layout_weight="6"
+    android:layout_weight="9"
     android:name="com.google.android.gms.maps.SupportMapFragment" />
