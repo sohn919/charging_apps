@@ -113,7 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:gravity="center|bottom"
+                            android:gravity="left|center|bottom"
                             android:text="충전되었습니다."
                             android:autoSizeTextType="uniform"
                             android:autoSizeMinTextSize="12sp"
