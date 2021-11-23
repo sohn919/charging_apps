@@ -41,10 +41,15 @@
         <entry key="..\:/smart-fishbowl-android/app/src/main/res/menu/menu.xml" value="0.2942708333333333" />
         <entry key="..\:/test/charging_apps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.40260416666666665" />
         <entry key="..\:/test/charging_apps/app/src/main/res/drawable/stroke.xml" value="0.40260416666666665" />
+        <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_battery.xml" value="0.38645833333333335" />
+        <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_history.xml" value="0.28072916666666664" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_login.xml" value="0.21603260869565216" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_main.xml" value="0.21603260869565216" />
+        <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_manage.xml" value="0.38645833333333335" />
+        <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_manage2.xml" value="0.38645833333333335" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/activity_register.xml" value="0.21603260869565216" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/breakdown_panel.xml" value="0.21603260869565216" />
+        <entry key="..\:/test/charging_apps/app/src/main/res/layout/dialog_charging.xml" value="0.38645833333333335" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/led_panel.xml" value="0.21603260869565216" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/point_panel.xml" value="0.21603260869565216" />
         <entry key="..\:/test/charging_apps/app/src/main/res/layout/state_panel.xml" value="0.21603260869565216" />

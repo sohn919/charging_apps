@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TableLayout
-            android:layout_width="410dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:padding="14dp"
             android:stretchColumns="5"
@@ -23,8 +23,10 @@
 
 
             <TableRow
-                android:layout_width="353dp"
-                android:layout_height="11dp">
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+
+                >
 
 
                 <Button
@@ -72,7 +74,7 @@
         </TableLayout>
 
         <TableLayout
-            android:layout_width="410dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="14dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +82,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TableRow
-                android:layout_width="353dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -121,7 +123,7 @@
         </TableLayout>
 
         <TableLayout
-            android:layout_width="410dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="14dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,9 +131,10 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TableRow
-                android:layout_width="353dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                >
 
                 <Button
                     android:id="@+id/i_button"

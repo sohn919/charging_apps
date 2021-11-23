@@ -370,12 +370,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
 
-        LatLng SEOUL = new LatLng(37.53, 126.97);
+        LatLng SEOUL = new LatLng(35.02197, 126.78415);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(SEOUL);
         markerOptions.title("현재 위치");
-        markerOptions.snippet("조선대");
+        markerOptions.snippet("한전kdn");
         mMap.addMarker(markerOptions);
 
         BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.marker_img);
