@@ -30,7 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.8"
                 android:orientation="horizontal">
 
             </LinearLayout>
@@ -138,7 +138,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.7"
+                android:layout_weight="1.5"
                 android:orientation="horizontal">
 
             </LinearLayout>
