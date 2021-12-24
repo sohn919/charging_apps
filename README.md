@@ -26,13 +26,17 @@
 ![3](https://user-images.githubusercontent.com/84082544/147317281-570d69ff-1999-4aa2-a304-203c2dd6d75e.PNG)
 
 ## 
-
++ 지도의 마커를 클릭하면 다이얼로그가 나타나게 개발하였습니다.
++ 다이얼로그에 충전하기를 누르면 다이얼로그 창이 닫히며 다른 다이얼로그가 나타나게 하였습니다.
++ waveview를 사용하여 차오르는 형태를 물결이 치는 형태처럼 표현하였습니다.
 ![4](https://user-images.githubusercontent.com/84082544/147317284-b90367cd-094f-4a68-b892-c8ef16b28c18.PNG)
 
 ## 
-
++ DatePicker를 통해 날짜를 지정할 수 있게 하였습니다.
++ 지정된 날짜에 있는 데이터를 가져와 리스트뷰로 나타내게 하였습니다.
++ 폰에 있는 NFC기능을 활성화 시켜 NFC 정보가 데이터베이스에 전송되게 하였습니다.
 ![5](https://user-images.githubusercontent.com/84082544/147317286-675b2217-6412-426e-a1aa-b5073d42a676.PNG)
 
 ## 
-
++ 데이터베이스에 데이터를 가져와 리스뷰로 보이게 하였습니다.
 ![6](https://user-images.githubusercontent.com/84082544/147317289-fbd2a3e4-dead-4e72-b82f-2f022a2f4f97.PNG)
