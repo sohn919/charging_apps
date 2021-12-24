@@ -13,7 +13,8 @@
 + Android Studio
 + Firebase
 
-### 앱 화면
+### 앱 화면 및 설명
++ 로그인과 회원가입의 화면입니다.
 ![2](https://user-images.githubusercontent.com/84082544/147317200-d8bbae69-8c60-4500-aeec-35429707fa4b.PNG)
 
 ## 
