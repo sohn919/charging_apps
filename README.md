@@ -40,3 +40,4 @@
 ## 
 + 데이터베이스에 데이터를 가져와 리스뷰로 보이게 하였습니다.
 ![6](https://user-images.githubusercontent.com/84082544/147317289-fbd2a3e4-dead-4e72-b82f-2f022a2f4f97.PNG)
+## 
