@@ -11,7 +11,7 @@
 
 ### 개발
 + Android Studio
-+ 
++ Firebase
 
 ### 앱 화면
 ![2](https://user-images.githubusercontent.com/84082544/147317200-d8bbae69-8c60-4500-aeec-35429707fa4b.PNG)
